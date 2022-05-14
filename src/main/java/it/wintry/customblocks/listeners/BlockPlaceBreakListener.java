@@ -44,10 +44,10 @@ public class BlockPlaceBreakListener implements Listener {
         if (itemStack.getType() == Material.PURPUR_BLOCK) {
             Optional<CustomBlock> customBlock = plugin.getManager().getCustomBlockByName(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
             if (customBlock.isPresent()) {
-                block.setType(Material.NOTE_BLOCK);
                 NoteBlock noteBlock = (NoteBlock) block.getBlockData();
                 noteBlock.setInstrument(customBlock.get().getInstrument());
                 noteBlock.setNote(customBlock.get().getNote());
+                block.setType(Material.NOTE_BLOCK);
                 block.setBlockData(noteBlock);
             }
         }
@@ -55,12 +55,13 @@ public class BlockPlaceBreakListener implements Listener {
         Optional<CustomFurniture> customFurniture = plugin.getManager().getCustomFurnitureByName(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
 
         if (customFurniture.isPresent()) {
-            ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(block.getLocation().add(0.5, -1.37, 0.5), EntityType.ARMOR_STAND);
-            armorStand.setVisible(false);
             ItemStack furnitureItem = new ItemStack(customFurniture.get().getFurnitureMaterial());
             ItemMeta itemMeta = furnitureItem.getItemMeta();
             itemMeta.setCustomModelData(customFurniture.get().getFurnitureModelData());
             furnitureItem.setItemMeta(itemMeta);
+
+            ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(block.getLocation().add(0.5, -1.37, 0.5), EntityType.ARMOR_STAND);
+            armorStand.setVisible(false);
             armorStand.getEquipment().setHelmet(furnitureItem);
             armorStand.setBasePlate(false);
             armorStand.setCollidable(false);
@@ -68,6 +69,7 @@ public class BlockPlaceBreakListener implements Listener {
             armorStand.setGravity(false);
             armorStand.setMarker(true);
             armorStand.setInvulnerable(false);
+
             block.setType(Material.BARRIER);
         }
 
@@ -99,6 +101,7 @@ public class BlockPlaceBreakListener implements Listener {
         itemMeta.setCustomModelData(customBlock.get().getModelData());
         itemMeta.setDisplayName(Utils.colorize(customBlock.get().getName()));
         itemStack.setItemMeta(itemMeta);
+
         block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
         e.setDropItems(false);
     }
