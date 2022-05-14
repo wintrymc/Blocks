@@ -53,7 +53,6 @@ public class BlockPlaceBreakListener implements Listener {
         }
 
         Optional<CustomFurniture> customFurniture = plugin.getManager().getCustomFurnitureByName(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
-
         if (customFurniture.isPresent()) {
             ItemStack furnitureItem = new ItemStack(customFurniture.get().getFurnitureMaterial());
             ItemMeta itemMeta = furnitureItem.getItemMeta();
@@ -82,8 +81,10 @@ public class BlockPlaceBreakListener implements Listener {
         Block block = e.getBlock();
         World nmsWorld = ((CraftWorld) e.getBlock().getLocation().getWorld()).getHandle();
         PacketPlayOutBlockChange packet = new PacketPlayOutBlockChange(nmsWorld, new BlockPosition(block.getX(), block.getY(), block.getZ()));
+
         for (Player online : Bukkit.getOnlinePlayers())
             ((CraftPlayer) online).getHandle().b.a(packet);
+
         e.setCancelled(true);
     }
 
