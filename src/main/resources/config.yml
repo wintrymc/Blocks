@@ -1,0 +1,21 @@
+mysql:
+  host: localhost
+  port: 3306
+  database: customblocks
+  username: root
+  password: password
+blocks:
+  1:
+    note: 1
+    instrument: strument1
+    name: 'Sasso'
+    model-data: 1
+furniture:
+  1:
+    name: 'Armadio'
+    item:
+      material: PURPUR_BLOCK
+      model-data: 2
+    furniture:
+      material: PURPUR_BLOCK
+      model-data: 1

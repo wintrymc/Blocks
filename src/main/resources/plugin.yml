@@ -1,0 +1,8 @@
+name: CustomBlocks
+version: '${project.version}'
+main: it.wintry.customblocks.CustomBlocks
+api-version: 1.18
+authors: [zMario]
+commands:
+  customblocks:
+    description: Comando principale per la gestione dei blocchi personalizzati.
