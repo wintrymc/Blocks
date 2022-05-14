@@ -23,11 +23,14 @@ public class InteractDismountListener implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Block clickedBlock = e.getClickedBlock();
+
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK || clickedBlock == null) return;
+
         if (clickedBlock.getType() == Material.NOTE_BLOCK && player.getGameMode() != GameMode.CREATIVE
                 && player.isSneaking() && player.getInventory().getItem(player.getInventory().getHeldItemSlot()) != null) {
             e.setCancelled(true);
         }
+
         if (plugin.getManager().getChairByLocation(clickedBlock.getLocation()).isPresent() && ((Entity) e.getPlayer()).isOnGround()) {
             clickedBlock.getWorld().spawn(clickedBlock.getLocation().add(0.5, 0, 0.5).subtract(0, 0, 0), Arrow.class, arrowChair -> {
                 arrowChair.setSilent(true);

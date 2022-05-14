@@ -40,6 +40,7 @@ public class BlockPlaceBreakListener implements Listener {
         ItemStack itemStack = e.getItemInHand();
         Block block = e.getBlock();
         if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasCustomModelData()) return;
+
         if (itemStack.getType() == Material.PURPUR_BLOCK) {
             Optional<CustomBlock> customBlock = plugin.getManager().getCustomBlockByName(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
             if (customBlock.isPresent()) {
@@ -52,6 +53,7 @@ public class BlockPlaceBreakListener implements Listener {
         }
 
         Optional<CustomFurniture> customFurniture = plugin.getManager().getCustomFurnitureByName(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
+
         if (customFurniture.isPresent()) {
             ArmorStand armorStand = (ArmorStand) player.getWorld().spawnEntity(block.getLocation().add(0.5, -1.37, 0.5), EntityType.ARMOR_STAND);
             armorStand.setVisible(false);
@@ -68,6 +70,7 @@ public class BlockPlaceBreakListener implements Listener {
             armorStand.setInvulnerable(false);
             block.setType(Material.BARRIER);
         }
+
         ItemStack currentItem = player.getInventory().getItem(player.getInventory().getHeldItemSlot());
         currentItem.setAmount(currentItem.getAmount() - 1);
     }
@@ -86,15 +89,17 @@ public class BlockPlaceBreakListener implements Listener {
     public void onBreak(BlockBreakEvent e) {
         Block block = e.getBlock();
         if (block.getType() != Material.NOTE_BLOCK || e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+
         NoteBlock noteBlock = (NoteBlock) block.getBlockData();
         Optional<CustomBlock> customBlock = plugin.getManager().getByNote(noteBlock.getNote());
         if (customBlock.isEmpty()) return;
+
         ItemStack itemStack = new ItemStack(Material.PURPUR_BLOCK);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setCustomModelData(customBlock.get().getModelData());
         itemMeta.setDisplayName(Utils.colorize(customBlock.get().getName()));
         itemStack.setItemMeta(itemMeta);
-        e.setDropItems(false);
         block.getWorld().dropItemNaturally(block.getLocation(), itemStack);
+        e.setDropItems(false);
     }
 }
